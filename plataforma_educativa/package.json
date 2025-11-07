@@ -1,0 +1,25 @@
+{
+  "name": "plataforma-educativa",
+  "version": "1.0.0",
+  "description": "Plataforma educativa completa con gestión de cursos, evaluaciones y certificaciones - Versión para hosting sin dependencias",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "educacion",
+    "cursos",
+    "evaluaciones",
+    "certificaciones",
+    "lms",
+    "plataforma",
+    "educativa",
+    "aprendizaje"
+  ],
+  "author": "MiniMax Agent",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

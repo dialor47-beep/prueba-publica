@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma Educativa - Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="sidebar-logo">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>EduPlataforma</span>
+                </a>
+            </div>
+            
+            <div class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="nav-item" data-section="courses">
+                    <i class="fas fa-book"></i>
+                    <span>Cursos</span>
+                </a>
+                <a href="#" class="nav-item" data-section="materials">
+                    <i class="fas fa-folder"></i>
+                    <span>Materiales</span>
+                </a>
+                <a href="#" class="nav-item" data-section="quiz">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Evaluaciones</span>
+                </a>
+                <a href="#" class="nav-item" data-section="calendar">
+                    <i class="fas fa-calendar"></i>
+                    <span>Calendario</span>
+                </a>
+                <a href="#" class="nav-item" data-section="certificates">
+                    <i class="fas fa-certificate"></i>
+                    <span>Certificados</span>
+                </a>
+                <a href="#" class="nav-item" data-section="activity">
+                    <i class="fas fa-history"></i>
+                    <span>Actividad</span>
+                </a>
+                <a href="#" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </a>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <h1>Dashboard</h1>
+                <div class="user-menu">
+                    <div class="user-info">
+                        <span class="user-name">Usuario</span>
+                        <div class="user-avatar">U</div>
+                    </div>
+                    <button onclick="authUtils.logout()" class="btn btn-secondary" style="width: auto; padding: 8px 16px; height: auto;">
+                        <i class="fas fa-sign-out-alt"></i>
+                        Salir
+                    </button>
+                </div>
+            </header>
+
+            <!-- Content Area -->
+            <div class="content">
+                <!-- Dashboard Section -->
+                <section id="dashboard-section" class="section">
+                    <div class="section-header">
+                        <h2 class="section-title">Bienvenido de vuelta</h2>
+                        <p class="section-description">Aquí tienes un resumen de tu actividad y cursos</p>
+                    </div>
+
+                    <!-- Stats Cards -->
+                    <div class="grid grid-4" style="margin-bottom: 2rem;">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-book text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3 id="total-courses">6</h3>
+                                <p class="text-muted">Cursos Disponibles</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-trophy text-success" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3 id="completed-courses">0</h3>
+                                <p class="text-muted">Cursos Completados</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-certificate text-warning" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3 id="certificates-count">0</h3>
+                                <p class="text-muted">Certificados</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-calendar text-primary" style="font-size: 2rem;"></i>
+                            </div>
+                            <div class="card-content">
+                                <h3 id="upcoming-events">0</h3>
+                                <p class="text-muted">Eventos Próximos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recent Activity -->
+                    <div class="grid grid-2">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Cursos Recientes</h3>
+                                <button class="btn btn-primary" style="width: auto; height: auto; padding: 8px 16px;" onclick="showSection('courses')">
+                                    Ver todos
+                                </button>
+                            </div>
+                            <div class="card-content" id="recent-courses">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Próximos Eventos</h3>
+                                <button class="btn btn-primary" style="width: auto; height: auto; padding: 8px 16px;" onclick="showSection('calendar')">
+                                    Ver calendario
+                                </button>
+                            </div>
+                            <div class="card-content" id="upcoming-events-list">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Courses Section -->
+                <section id="courses-section" class="section" style="display: none;">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2 class="section-title">Mis Cursos</h2>
+                            <p class="section-description">Gestiona y accede a todos tus cursos</p>
+                        </div>
+                        <button class="btn btn-primary" id="addCourseBtn" style="width: auto;">
+                            <i class="fas fa-plus"></i>
+                            Nuevo Curso
+                        </button>
+                    </div>
+
+                    <div class="grid grid-3" id="courses-grid">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Materials Section -->
+                <section id="materials-section" class="section" style="display: none;">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2 class="section-title">Materiales de Curso</h2>
+                            <p class="section-description">Sube y organiza documentos, videos y enlaces</p>
+                        </div>
+                        <button class="btn btn-primary" id="uploadMaterialBtn" style="width: auto;">
+                            <i class="fas fa-upload"></i>
+                            Subir Material
+                        </button>
+                    </div>
+
+                    <!-- Material Filters -->
+                    <div class="card" style="margin-bottom: 1rem;">
+                        <div class="form-group-inline" style="padding: 1rem;">
+                            <label for="materialCourseFilter">Filtrar por curso:</label>
+                            <select id="materialCourseFilter" class="form-group" style="margin: 0;">
+                                <option value="">Todos los cursos</option>
+                            </select>
+                            <select id="materialTypeFilter" class="form-group" style="margin: 0;">
+                                <option value="">Todos los tipos</option>
+                                <option value="document">Documentos</option>
+                                <option value="video">Videos</option>
+                                <option value="link">Enlaces</option>
+                                <option value="presentation">Presentaciones</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-3" id="materials-grid">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Quiz Section -->
+                <section id="quiz-section" class="section" style="display: none;">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2 class="section-title">Evaluaciones</h2>
+                            <p class="section-description">Completa los quizzes para obtener certificaciones</p>
+                        </div>
+                        <button class="btn btn-primary" id="createQuizBtn" style="width: auto;">
+                            <i class="fas fa-plus"></i>
+                            Crear Quiz
+                        </button>
+                    </div>
+
+                    <div class="grid grid-3" id="quiz-grid">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Calendar Section -->
+                <section id="calendar-section" class="section" style="display: none;">
+                    <div class="section-header flex-between">
+                        <div>
+                            <h2 class="section-title">Calendario de Eventos</h2>
+                            <p class="section-description">Gestiona clases y reuniones virtuales</p>
+                        </div>
+                        <button class="btn btn-primary" id="createEventBtn" style="width: auto;">
+                            <i class="fas fa-plus"></i>
+                            Nuevo Evento
+                        </button>
+                    </div>
+
+                    <!-- Calendar -->
+                    <div class="card">
+                        <div class="card-content">
+                            <div id="calendar-container">
+                                <!-- Se llenará dinámicamente -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Certificates Section -->
+                <section id="certificates-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">Mis Certificados</h2>
+                        <p class="section-description">Certificaciones obtenidas por completar cursos</p>
+                    </div>
+
+                    <div class="grid grid-3" id="certificates-grid">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </section>
+
+                <!-- Activity Section -->
+                <section id="activity-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">Historial de Actividad</h2>
+                        <p class="section-description">Registro de todas las acciones realizadas en la plataforma</p>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-content" id="activity-log">
+                            <!-- Se llenará dinámicamente -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings-section" class="section" style="display: none;">
+                    <div class="section-header">
+                        <h2 class="section-title">Configuración</h2>
+                        <p class="section-description">Personaliza tu experiencia en la plataforma</p>
+                    </div>
+
+                    <div class="form">
+                        <div class="card">
+                            <div class="card-content">
+                                <h3 class="card-title">Información Personal</h3>
+                                <div class="form-group">
+                                    <label for="userName">Nombre Completo</label>
+                                    <input type="text" id="userName" class="form-group" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userEmail">Email</label>
+                                    <input type="email" id="userEmail" class="form-group" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="userUsername">Usuario</label>
+                                    <input type="text" id="userUsername" class="form-group" disabled>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <div id="courseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('courseModal')">&times;</span>
+            <h3 id="courseModalTitle">Nuevo Curso</h3>
+            <form id="courseForm" class="form">
+                <div class="form-group">
+                    <label for="courseTitle">Título del Curso</label>
+                    <input type="text" id="courseTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="courseDescription">Descripción</label>
+                    <textarea id="courseDescription" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="courseCategory">Categoría</label>
+                    <select id="courseCategory" required>
+                        <option value="">Seleccionar categoría</option>
+                        <option value="General">General</option>
+                        <option value="Tecnología">Tecnología</option>
+                        <option value="Seguridad">Seguridad</option>
+                        <option value="Administración">Administración</option>
+                        <option value="Servicio">Servicio</option>
+                        <option value="Gestión Pública">Gestión Pública</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="courseDuration">Duración (horas)</label>
+                    <input type="number" id="courseDuration" min="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('courseModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Curso</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="materialModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('materialModal')">&times;</span>
+            <h3>Subir Material</h3>
+            <form id="materialForm" class="form" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="materialCourse">Curso</label>
+                    <select id="materialCourse" required>
+                        <option value="">Seleccionar curso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="materialType">Tipo de Material</label>
+                    <select id="materialType" required>
+                        <option value="">Seleccionar tipo</option>
+                        <option value="document">Documento</option>
+                        <option value="video">Video</option>
+                        <option value="link">Enlace</option>
+                        <option value="presentation">Presentación</option>
+                    </select>
+                </div>
+                <div class="form-group" id="fileUploadGroup">
+                    <label for="materialFile">Archivo</label>
+                    <div class="file-upload" id="fileUpload">
+                        <div class="file-upload-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                        <p>Arrastra tu archivo aquí o haz clic para seleccionar</p>
+                        <input type="file" id="materialFile" name="file" style="display: none;" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.mp4,.avi,.mov,.txt">
+                    </div>
+                </div>
+                <div class="form-group" id="urlInputGroup" style="display: none;">
+                    <label for="materialUrl">URL del Enlace</label>
+                    <input type="url" id="materialUrl" placeholder="https://ejemplo.com">
+                </div>
+                <div class="form-group">
+                    <label for="materialDescription">Descripción (opcional)</label>
+                    <textarea id="materialDescription" rows="2"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('materialModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Subir Material</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="quizModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="close" onclick="closeModal('quizModal')">&times;</span>
+            <h3>Crear Quiz</h3>
+            <form id="quizForm" class="form">
+                <div class="form-group">
+                    <label for="quizCourse">Curso</label>
+                    <select id="quizCourse" required>
+                        <option value="">Seleccionar curso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="quizTitle">Título del Quiz</label>
+                    <input type="text" id="quizTitle" value="Quiz del Curso" required>
+                </div>
+                <div class="form-group">
+                    <label>Preguntas</label>
+                    <div id="questions-container">
+                        <!-- Las preguntas se agregarán dinámicamente -->
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addQuestion()" style="margin-top: 1rem; width: auto;">
+                        <i class="fas fa-plus"></i>
+                        Agregar Pregunta
+                    </button>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('quizModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear Quiz</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('eventModal')">&times;</span>
+            <h3>Crear Evento</h3>
+            <form id="eventForm" class="form">
+                <div class="form-group">
+                    <label for="eventTitle">Título del Evento</label>
+                    <input type="text" id="eventTitle" required>
+                </div>
+                <div class="form-group">
+                    <label for="eventDescription">Descripción</label>
+                    <textarea id="eventDescription" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="eventDate">Fecha</label>
+                        <input type="date" id="eventDate" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventTime">Hora</label>
+                        <input type="time" id="eventTime" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="eventType">Tipo de Evento</label>
+                    <select id="eventType" required>
+                        <option value="">Seleccionar tipo</option>
+                        <option value="class">Clase</option>
+                        <option value="meeting">Reunión</option>
+                        <option value="webinar">Webinar</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="eventMeetLink">Enlace de Google Meet (opcional)</label>
+                    <input type="url" id="eventMeetLink" placeholder="https://meet.google.com/...">
+                </div>
+                <div class="form-group">
+                    <label for="eventYoutubeLink">Enlace de YouTube (opcional)</label>
+                    <input type="url" id="eventYoutubeLink" placeholder="https://youtube.com/watch?v=...">
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('eventModal')">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Crear Evento</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de mensaje reutilizable -->
+    <div id="messageModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3 id="modalTitle">Título</h3>
+            <p id="modalMessage">Mensaje</p>
+            <button id="modalButton" class="btn btn-primary">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script>
+        // Verificar autenticación al cargar
+        window.addEventListener('load', function() {
+            const userData = authUtils.checkAuth();
+            if (userData) {
+                authUtils.updateUserUI();
+                initializeApp();
+            }
+        });
+    </script>
+</body>
+</html>
